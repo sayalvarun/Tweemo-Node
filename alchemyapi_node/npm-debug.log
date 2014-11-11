@@ -1,0 +1,481 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/Users/varun/Documents/Programming/webdevprojects/parser/alchemyapi_node',
+5 verbose install   [ 'express', 'request', 'consolidate', 'dustjs-linkedin' ] ]
+6 info preinstall alchemyapi_node@0.10.1
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'express@3.4.0', null ]
+9 verbose cache add name=undefined spec="express@3.4.0" args=["express@3.4.0",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'express@3.4.0',
+10 verbose parsed url   path: 'express@3.4.0',
+10 verbose parsed url   href: 'express@3.4.0' }
+11 verbose cache add [ 'request@~2.27.0', null ]
+12 verbose cache add name=undefined spec="request@~2.27.0" args=["request@~2.27.0",null]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'request@~2.27.0',
+13 verbose parsed url   path: 'request@~2.27.0',
+13 verbose parsed url   href: 'request@~2.27.0' }
+14 verbose cache add name="express" spec="3.4.0" args=["express","3.4.0"]
+15 verbose parsed url { protocol: null,
+15 verbose parsed url   slashes: null,
+15 verbose parsed url   auth: null,
+15 verbose parsed url   host: null,
+15 verbose parsed url   port: null,
+15 verbose parsed url   hostname: null,
+15 verbose parsed url   hash: null,
+15 verbose parsed url   search: null,
+15 verbose parsed url   query: null,
+15 verbose parsed url   pathname: '3.4.0',
+15 verbose parsed url   path: '3.4.0',
+15 verbose parsed url   href: '3.4.0' }
+16 verbose addNamed [ 'express', '3.4.0' ]
+17 verbose addNamed [ '3.4.0', '3.4.0' ]
+18 verbose cache add [ 'consolidate@~0.9.1', null ]
+19 verbose cache add name=undefined spec="consolidate@~0.9.1" args=["consolidate@~0.9.1",null]
+20 verbose parsed url { protocol: null,
+20 verbose parsed url   slashes: null,
+20 verbose parsed url   auth: null,
+20 verbose parsed url   host: null,
+20 verbose parsed url   port: null,
+20 verbose parsed url   hostname: null,
+20 verbose parsed url   hash: null,
+20 verbose parsed url   search: null,
+20 verbose parsed url   query: null,
+20 verbose parsed url   pathname: 'consolidate@~0.9.1',
+20 verbose parsed url   path: 'consolidate@~0.9.1',
+20 verbose parsed url   href: 'consolidate@~0.9.1' }
+21 verbose cache add name="request" spec="~2.27.0" args=["request","~2.27.0"]
+22 verbose parsed url { protocol: null,
+22 verbose parsed url   slashes: null,
+22 verbose parsed url   auth: null,
+22 verbose parsed url   host: null,
+22 verbose parsed url   port: null,
+22 verbose parsed url   hostname: null,
+22 verbose parsed url   hash: null,
+22 verbose parsed url   search: null,
+22 verbose parsed url   query: null,
+22 verbose parsed url   pathname: '~2.27.0',
+22 verbose parsed url   path: '~2.27.0',
+22 verbose parsed url   href: '~2.27.0' }
+23 verbose addNamed [ 'request', '~2.27.0' ]
+24 verbose addNamed [ null, '>=2.27.0-0 <2.28.0-0' ]
+25 silly lockFile 86194427-express-3-4-0 express@3.4.0
+26 verbose lock express@3.4.0 /Users/varun/.npm/86194427-express-3-4-0.lock
+27 silly lockFile 999b8a1d-request-2-27-0 request@~2.27.0
+28 verbose lock request@~2.27.0 /Users/varun/.npm/999b8a1d-request-2-27-0.lock
+29 verbose cache add [ 'dustjs-linkedin@~2.0.3', null ]
+30 verbose cache add name=undefined spec="dustjs-linkedin@~2.0.3" args=["dustjs-linkedin@~2.0.3",null]
+31 verbose parsed url { protocol: null,
+31 verbose parsed url   slashes: null,
+31 verbose parsed url   auth: null,
+31 verbose parsed url   host: null,
+31 verbose parsed url   port: null,
+31 verbose parsed url   hostname: null,
+31 verbose parsed url   hash: null,
+31 verbose parsed url   search: null,
+31 verbose parsed url   query: null,
+31 verbose parsed url   pathname: 'dustjs-linkedin@~2.0.3',
+31 verbose parsed url   path: 'dustjs-linkedin@~2.0.3',
+31 verbose parsed url   href: 'dustjs-linkedin@~2.0.3' }
+32 verbose cache add name="consolidate" spec="~0.9.1" args=["consolidate","~0.9.1"]
+33 verbose parsed url { protocol: null,
+33 verbose parsed url   slashes: null,
+33 verbose parsed url   auth: null,
+33 verbose parsed url   host: null,
+33 verbose parsed url   port: null,
+33 verbose parsed url   hostname: null,
+33 verbose parsed url   hash: null,
+33 verbose parsed url   search: null,
+33 verbose parsed url   query: null,
+33 verbose parsed url   pathname: '~0.9.1',
+33 verbose parsed url   path: '~0.9.1',
+33 verbose parsed url   href: '~0.9.1' }
+34 verbose addNamed [ 'consolidate', '~0.9.1' ]
+35 verbose addNamed [ null, '>=0.9.1-0 <0.10.0-0' ]
+36 silly lockFile 25e694a9-consolidate-0-9-1 consolidate@~0.9.1
+37 verbose lock consolidate@~0.9.1 /Users/varun/.npm/25e694a9-consolidate-0-9-1.lock
+38 verbose cache add name="dustjs-linkedin" spec="~2.0.3" args=["dustjs-linkedin","~2.0.3"]
+39 verbose parsed url { protocol: null,
+39 verbose parsed url   slashes: null,
+39 verbose parsed url   auth: null,
+39 verbose parsed url   host: null,
+39 verbose parsed url   port: null,
+39 verbose parsed url   hostname: null,
+39 verbose parsed url   hash: null,
+39 verbose parsed url   search: null,
+39 verbose parsed url   query: null,
+39 verbose parsed url   pathname: '~2.0.3',
+39 verbose parsed url   path: '~2.0.3',
+39 verbose parsed url   href: '~2.0.3' }
+40 verbose addNamed [ 'dustjs-linkedin', '~2.0.3' ]
+41 verbose addNamed [ null, '>=2.0.3-0 <2.1.0-0' ]
+42 silly lockFile d0c8ad88-dustjs-linkedin-2-0-3 dustjs-linkedin@~2.0.3
+43 verbose lock dustjs-linkedin@~2.0.3 /Users/varun/.npm/d0c8ad88-dustjs-linkedin-2-0-3.lock
+44 silly addNameRange { name: 'request',
+44 silly addNameRange   range: '>=2.27.0-0 <2.28.0-0',
+44 silly addNameRange   hasData: false }
+45 silly addNameRange { name: 'consolidate',
+45 silly addNameRange   range: '>=0.9.1-0 <0.10.0-0',
+45 silly addNameRange   hasData: false }
+46 verbose request where is /consolidate
+47 verbose request registry https://registry.npmjs.org/
+48 verbose request id f216038d2a089f27
+49 verbose url raw /consolidate
+50 verbose url resolving [ 'https://registry.npmjs.org/', './consolidate' ]
+51 verbose url resolved https://registry.npmjs.org/consolidate
+52 verbose request where is https://registry.npmjs.org/consolidate
+53 info trying registry request attempt 1 at 15:46:30
+54 http GET https://registry.npmjs.org/consolidate
+55 silly addNameRange { name: 'dustjs-linkedin',
+55 silly addNameRange   range: '>=2.0.3-0 <2.1.0-0',
+55 silly addNameRange   hasData: false }
+56 verbose request where is /dustjs-linkedin
+57 verbose request registry https://registry.npmjs.org/
+58 verbose url raw /dustjs-linkedin
+59 verbose url resolving [ 'https://registry.npmjs.org/', './dustjs-linkedin' ]
+60 verbose url resolved https://registry.npmjs.org/dustjs-linkedin
+61 verbose request where is https://registry.npmjs.org/dustjs-linkedin
+62 info trying registry request attempt 1 at 15:46:30
+63 http GET https://registry.npmjs.org/dustjs-linkedin
+64 verbose request where is /request
+65 verbose request registry https://registry.npmjs.org/
+66 verbose url raw /request
+67 verbose url resolving [ 'https://registry.npmjs.org/', './request' ]
+68 verbose url resolved https://registry.npmjs.org/request
+69 verbose request where is https://registry.npmjs.org/request
+70 info trying registry request attempt 1 at 15:46:30
+71 verbose etag "D8UZ32H7H5DL24LY1VM9KEPN3"
+72 http GET https://registry.npmjs.org/request
+73 verbose request where is /express
+74 verbose request registry https://registry.npmjs.org/
+75 verbose url raw /express
+76 verbose url resolving [ 'https://registry.npmjs.org/', './express' ]
+77 verbose url resolved https://registry.npmjs.org/express
+78 verbose request where is https://registry.npmjs.org/express
+79 info trying registry request attempt 1 at 15:46:30
+80 verbose etag "83H3CG151JZG85DS656IHITA"
+81 http GET https://registry.npmjs.org/express
+82 http 200 https://registry.npmjs.org/dustjs-linkedin
+83 silly registry.get cb [ 200,
+83 silly registry.get   { date: 'Sun, 09 Nov 2014 20:46:30 GMT',
+83 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+83 silly registry.get     etag: '"8WOSAU7GJ74S01XO4DM6PKX9I"',
+83 silly registry.get     'content-type': 'application/json',
+83 silly registry.get     'cache-control': 'max-age=60',
+83 silly registry.get     'content-length': '66630',
+83 silly registry.get     'accept-ranges': 'bytes',
+83 silly registry.get     via: '1.1 varnish',
+83 silly registry.get     age: '0',
+83 silly registry.get     'x-served-by': 'cache-jfk1024-JFK',
+83 silly registry.get     'x-cache': 'HIT',
+83 silly registry.get     'x-cache-hits': '1',
+83 silly registry.get     'x-timer': 'S1415565990.229384,VS0,VE15',
+83 silly registry.get     vary: 'Accept',
+83 silly registry.get     'keep-alive': 'timeout=10, max=50',
+83 silly registry.get     connection: 'Keep-Alive' } ]
+84 http 200 https://registry.npmjs.org/consolidate
+85 silly registry.get cb [ 200,
+85 silly registry.get   { date: 'Sun, 09 Nov 2014 20:46:30 GMT',
+85 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+85 silly registry.get     etag: '"9UIMTL24RA7J7QH0I45AGI9MQ"',
+85 silly registry.get     'content-type': 'application/json',
+85 silly registry.get     'cache-control': 'max-age=60',
+85 silly registry.get     'content-length': '20553',
+85 silly registry.get     'accept-ranges': 'bytes',
+85 silly registry.get     via: '1.1 varnish',
+85 silly registry.get     age: '0',
+85 silly registry.get     'x-served-by': 'cache-jfk1021-JFK',
+85 silly registry.get     'x-cache': 'HIT',
+85 silly registry.get     'x-cache-hits': '1',
+85 silly registry.get     'x-timer': 'S1415565990.233967,VS0,VE17',
+85 silly registry.get     vary: 'Accept',
+85 silly registry.get     'keep-alive': 'timeout=10, max=50',
+85 silly registry.get     connection: 'Keep-Alive' } ]
+86 silly addNameRange number 2 { name: 'consolidate',
+86 silly addNameRange   range: '>=0.9.1-0 <0.10.0-0',
+86 silly addNameRange   hasData: true }
+87 silly addNameRange versions [ 'consolidate',
+87 silly addNameRange   [ '0.0.1',
+87 silly addNameRange     '0.1.0',
+87 silly addNameRange     '0.2.0',
+87 silly addNameRange     '0.3.0',
+87 silly addNameRange     '0.3.1',
+87 silly addNameRange     '0.4.0',
+87 silly addNameRange     '0.5.0',
+87 silly addNameRange     '0.6.0',
+87 silly addNameRange     '0.7.0',
+87 silly addNameRange     '0.8.0',
+87 silly addNameRange     '0.9.0',
+87 silly addNameRange     '0.9.1',
+87 silly addNameRange     '0.10.0' ] ]
+88 verbose addNamed [ 'consolidate', '0.9.1' ]
+89 verbose addNamed [ '0.9.1', '0.9.1' ]
+90 silly lockFile 8ae528db-consolidate-0-9-1 consolidate@0.9.1
+91 verbose lock consolidate@0.9.1 /Users/varun/.npm/8ae528db-consolidate-0-9-1.lock
+92 silly addNameRange number 2 { name: 'dustjs-linkedin',
+92 silly addNameRange   range: '>=2.0.3-0 <2.1.0-0',
+92 silly addNameRange   hasData: true }
+93 silly addNameRange versions [ 'dustjs-linkedin',
+93 silly addNameRange   [ '0.4.0',
+93 silly addNameRange     '0.6.0',
+93 silly addNameRange     '1.0.0',
+93 silly addNameRange     '1.1.0',
+93 silly addNameRange     '1.1.1',
+93 silly addNameRange     '1.2.0',
+93 silly addNameRange     '1.2.1',
+93 silly addNameRange     '1.2.2',
+93 silly addNameRange     '1.2.3',
+93 silly addNameRange     '1.2.4',
+93 silly addNameRange     '1.2.5',
+93 silly addNameRange     '1.2.6',
+93 silly addNameRange     '2.0.0',
+93 silly addNameRange     '2.0.1',
+93 silly addNameRange     '2.0.2',
+93 silly addNameRange     '2.0.3',
+93 silly addNameRange     '2.1.0',
+93 silly addNameRange     '2.2.0',
+93 silly addNameRange     '2.2.2',
+93 silly addNameRange     '2.2.3',
+93 silly addNameRange     '2.1.1',
+93 silly addNameRange     '2.2.4',
+93 silly addNameRange     '2.3.0',
+93 silly addNameRange     '2.3.1',
+93 silly addNameRange     '2.3.2',
+93 silly addNameRange     '2.2.5',
+93 silly addNameRange     '2.1.2',
+93 silly addNameRange     '2.3.3',
+93 silly addNameRange     '2.2.7',
+93 silly addNameRange     '2.1.3',
+93 silly addNameRange     '2.2.8',
+93 silly addNameRange     '2.1.4',
+93 silly addNameRange     '2.2.9',
+93 silly addNameRange     '2.3.4',
+93 silly addNameRange     '2.1.5',
+93 silly addNameRange     '2.2.10',
+93 silly addNameRange     '2.3.5',
+93 silly addNameRange     '2.4.0',
+93 silly addNameRange     '2.4.1',
+93 silly addNameRange     '2.3.6',
+93 silly addNameRange     '2.4.2',
+93 silly addNameRange     '2.5.0' ] ]
+94 verbose addNamed [ 'dustjs-linkedin', '2.0.3' ]
+95 verbose addNamed [ '2.0.3', '2.0.3' ]
+96 silly lockFile a9a83f04-dustjs-linkedin-2-0-3 dustjs-linkedin@2.0.3
+97 verbose lock dustjs-linkedin@2.0.3 /Users/varun/.npm/a9a83f04-dustjs-linkedin-2-0-3.lock
+98 silly lockFile 48a83834-onsolidate-consolidate-0-9-1-tgz https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+99 verbose lock https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz /Users/varun/.npm/48a83834-onsolidate-consolidate-0-9-1-tgz.lock
+100 silly lockFile 54faf70e-nkedin-dustjs-linkedin-2-0-3-tgz https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+101 verbose lock https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz /Users/varun/.npm/54faf70e-nkedin-dustjs-linkedin-2-0-3-tgz.lock
+102 verbose addRemoteTarball [ 'https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz',
+102 verbose addRemoteTarball   '9bc97e721d69765f320f232207d4c77fa3e22ca2' ]
+103 verbose addRemoteTarball [ 'https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz',
+103 verbose addRemoteTarball   'f38550760fbf88813b670c8c9bf27364f5c4cb2a' ]
+104 info retry fetch attempt 1 at 15:46:30
+105 verbose fetch to= /var/folders/z2/m0v1bth176l24ykfg1pnjc4r0000gn/T/npm-64628-TcaFLdE-/registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+106 info retry fetch attempt 1 at 15:46:30
+107 verbose fetch to= /var/folders/z2/m0v1bth176l24ykfg1pnjc4r0000gn/T/npm-64628-TcaFLdE-/registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+108 http GET https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+109 http GET https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+110 http 200 https://registry.npmjs.org/request
+111 silly registry.get cb [ 200,
+111 silly registry.get   { date: 'Sun, 09 Nov 2014 20:46:30 GMT',
+111 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+111 silly registry.get     etag: '"CYNY5NZRXSX8L1VDJUQJGG9MN"',
+111 silly registry.get     'content-type': 'application/json',
+111 silly registry.get     'cache-control': 'max-age=60',
+111 silly registry.get     'content-length': '122193',
+111 silly registry.get     'accept-ranges': 'bytes',
+111 silly registry.get     via: '1.1 varnish',
+111 silly registry.get     age: '35',
+111 silly registry.get     'x-served-by': 'cache-jfk1026-JFK',
+111 silly registry.get     'x-cache': 'HIT',
+111 silly registry.get     'x-cache-hits': '4',
+111 silly registry.get     'x-timer': 'S1415565990.228178,VS0,VE0',
+111 silly registry.get     vary: 'Accept',
+111 silly registry.get     'keep-alive': 'timeout=10, max=50',
+111 silly registry.get     connection: 'Keep-Alive' } ]
+112 silly addNameRange number 2 { name: 'request', range: '>=2.27.0-0 <2.28.0-0', hasData: true }
+113 silly addNameRange versions [ 'request',
+113 silly addNameRange   [ '0.10.0',
+113 silly addNameRange     '0.8.3',
+113 silly addNameRange     '0.9.0',
+113 silly addNameRange     '0.9.1',
+113 silly addNameRange     '0.9.5',
+113 silly addNameRange     '1.0.0',
+113 silly addNameRange     '1.1.0',
+113 silly addNameRange     '1.1.1',
+113 silly addNameRange     '1.2.0',
+113 silly addNameRange     '1.9.0',
+113 silly addNameRange     '1.9.1',
+113 silly addNameRange     '1.9.2',
+113 silly addNameRange     '1.9.3',
+113 silly addNameRange     '1.9.5',
+113 silly addNameRange     '1.9.7',
+113 silly addNameRange     '1.9.8',
+113 silly addNameRange     '1.9.9',
+113 silly addNameRange     '2.0.0',
+113 silly addNameRange     '2.0.1',
+113 silly addNameRange     '2.0.2',
+113 silly addNameRange     '2.0.3',
+113 silly addNameRange     '2.0.4',
+113 silly addNameRange     '2.0.5',
+113 silly addNameRange     '2.1.0',
+113 silly addNameRange     '2.1.1',
+113 silly addNameRange     '2.2.0',
+113 silly addNameRange     '2.2.5',
+113 silly addNameRange     '2.2.6',
+113 silly addNameRange     '2.2.9',
+113 silly addNameRange     '2.9.0',
+113 silly addNameRange     '2.9.1',
+113 silly addNameRange     '2.9.2',
+113 silly addNameRange     '2.9.3',
+113 silly addNameRange     '2.9.100',
+113 silly addNameRange     '2.9.150',
+113 silly addNameRange     '2.9.151',
+113 silly addNameRange     '2.9.152',
+113 silly addNameRange     '2.9.153',
+113 silly addNameRange     '2.9.200',
+113 silly addNameRange     '2.9.201',
+113 silly addNameRange     '2.9.202',
+113 silly addNameRange     '2.9.203',
+113 silly addNameRange     '2.10.0',
+113 silly addNameRange     '2.11.0',
+113 silly addNameRange     '2.11.1',
+113 silly addNameRange     '2.11.2',
+113 silly addNameRange     '2.11.3',
+113 silly addNameRange     '2.11.4',
+113 silly addNameRange     '2.12.0',
+113 silly addNameRange     '2.14.0',
+113 silly addNameRange     '2.16.0',
+113 silly addNameRange     '2.16.2',
+113 silly addNameRange     '2.16.4',
+113 silly addNameRange     '2.16.6',
+113 silly addNameRange     '2.18.0',
+113 silly addNameRange     '2.19.0',
+113 silly addNameRange     '2.20.0',
+113 silly addNameRange     '2.21.0',
+113 silly addNameRange     '2.22.0',
+113 silly addNameRange     '2.23.0',
+113 silly addNameRange     '2.24.0',
+113 silly addNameRange     '2.25.0',
+113 silly addNameRange     '2.26.0',
+113 silly addNameRange     '2.27.0',
+113 silly addNameRange     '2.28.0',
+113 silly addNameRange     '2.29.0',
+113 silly addNameRange     '2.30.0',
+113 silly addNameRange     '2.31.0',
+113 silly addNameRange     '2.32.0',
+113 silly addNameRange     '2.33.0',
+113 silly addNameRange     '2.34.0',
+113 silly addNameRange     '2.35.0',
+113 silly addNameRange     '2.36.0',
+113 silly addNameRange     '2.37.0',
+113 silly addNameRange     '2.38.0',
+113 silly addNameRange     '2.39.0',
+113 silly addNameRange     '2.40.0',
+113 silly addNameRange     '2.41.0',
+113 silly addNameRange     '2.42.0',
+113 silly addNameRange     '2.43.0',
+113 silly addNameRange     '2.44.0',
+113 silly addNameRange     '2.45.0',
+113 silly addNameRange     '2.46.0',
+113 silly addNameRange     '2.47.0' ] ]
+114 verbose addNamed [ 'request', '2.27.0' ]
+115 verbose addNamed [ '2.27.0', '2.27.0' ]
+116 silly lockFile 7b48fbe0-request-2-27-0 request@2.27.0
+117 verbose lock request@2.27.0 /Users/varun/.npm/7b48fbe0-request-2-27-0.lock
+118 silly lockFile 601afcd9-s-org-request-request-2-27-0-tgz https://registry.npmjs.org/request/-/request-2.27.0.tgz
+119 verbose lock https://registry.npmjs.org/request/-/request-2.27.0.tgz /Users/varun/.npm/601afcd9-s-org-request-request-2-27-0-tgz.lock
+120 verbose addRemoteTarball [ 'https://registry.npmjs.org/request/-/request-2.27.0.tgz',
+120 verbose addRemoteTarball   'dfb1a224dd3a5a9bade4337012503d710e538668' ]
+121 info retry fetch attempt 1 at 15:46:30
+122 verbose fetch to= /var/folders/z2/m0v1bth176l24ykfg1pnjc4r0000gn/T/npm-64628-TcaFLdE-/registry.npmjs.org/request/-/request-2.27.0.tgz
+123 http GET https://registry.npmjs.org/request/-/request-2.27.0.tgz
+124 http 200 https://registry.npmjs.org/request/-/request-2.27.0.tgz
+125 silly lockFile 601afcd9-s-org-request-request-2-27-0-tgz https://registry.npmjs.org/request/-/request-2.27.0.tgz
+126 silly lockFile 601afcd9-s-org-request-request-2-27-0-tgz https://registry.npmjs.org/request/-/request-2.27.0.tgz
+127 silly lockFile 7b48fbe0-request-2-27-0 request@2.27.0
+128 silly lockFile 7b48fbe0-request-2-27-0 request@2.27.0
+129 silly lockFile 999b8a1d-request-2-27-0 request@~2.27.0
+130 silly lockFile 999b8a1d-request-2-27-0 request@~2.27.0
+131 http 200 https://registry.npmjs.org/express
+132 silly registry.get cb [ 200,
+132 silly registry.get   { date: 'Sun, 09 Nov 2014 20:46:30 GMT',
+132 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+132 silly registry.get     etag: '"BJMDE73DDAWP5L54YWCJDTLL0"',
+132 silly registry.get     'content-type': 'application/json',
+132 silly registry.get     'cache-control': 'max-age=60',
+132 silly registry.get     'content-length': '415664',
+132 silly registry.get     'accept-ranges': 'bytes',
+132 silly registry.get     via: '1.1 varnish',
+132 silly registry.get     age: '44',
+132 silly registry.get     'x-served-by': 'cache-jfk1032-JFK',
+132 silly registry.get     'x-cache': 'HIT',
+132 silly registry.get     'x-cache-hits': '3',
+132 silly registry.get     'x-timer': 'S1415565990.229746,VS0,VE0',
+132 silly registry.get     vary: 'Accept',
+132 silly registry.get     'keep-alive': 'timeout=10, max=50',
+132 silly registry.get     connection: 'Keep-Alive' } ]
+133 silly lockFile c97509f2-js-org-express-express-3-4-0-tgz https://registry.npmjs.org/express/-/express-3.4.0.tgz
+134 verbose lock https://registry.npmjs.org/express/-/express-3.4.0.tgz /Users/varun/.npm/c97509f2-js-org-express-express-3-4-0-tgz.lock
+135 verbose addRemoteTarball [ 'https://registry.npmjs.org/express/-/express-3.4.0.tgz',
+135 verbose addRemoteTarball   '6ed289da0d5f55ac30997cf832e5fc36f784071e' ]
+136 info retry fetch attempt 1 at 15:46:30
+137 verbose fetch to= /var/folders/z2/m0v1bth176l24ykfg1pnjc4r0000gn/T/npm-64628-TcaFLdE-/registry.npmjs.org/express/-/express-3.4.0.tgz
+138 http GET https://registry.npmjs.org/express/-/express-3.4.0.tgz
+139 http 200 https://registry.npmjs.org/express/-/express-3.4.0.tgz
+140 silly lockFile c97509f2-js-org-express-express-3-4-0-tgz https://registry.npmjs.org/express/-/express-3.4.0.tgz
+141 silly lockFile c97509f2-js-org-express-express-3-4-0-tgz https://registry.npmjs.org/express/-/express-3.4.0.tgz
+142 silly lockFile 86194427-express-3-4-0 express@3.4.0
+143 silly lockFile 86194427-express-3-4-0 express@3.4.0
+144 http 200 https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+145 silly lockFile 48a83834-onsolidate-consolidate-0-9-1-tgz https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+146 silly lockFile 48a83834-onsolidate-consolidate-0-9-1-tgz https://registry.npmjs.org/consolidate/-/consolidate-0.9.1.tgz
+147 silly lockFile 8ae528db-consolidate-0-9-1 consolidate@0.9.1
+148 silly lockFile 8ae528db-consolidate-0-9-1 consolidate@0.9.1
+149 silly lockFile 25e694a9-consolidate-0-9-1 consolidate@~0.9.1
+150 silly lockFile 25e694a9-consolidate-0-9-1 consolidate@~0.9.1
+151 http 200 https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+152 silly lockFile 54faf70e-nkedin-dustjs-linkedin-2-0-3-tgz https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+153 silly lockFile 54faf70e-nkedin-dustjs-linkedin-2-0-3-tgz https://registry.npmjs.org/dustjs-linkedin/-/dustjs-linkedin-2.0.3.tgz
+154 silly lockFile a9a83f04-dustjs-linkedin-2-0-3 dustjs-linkedin@2.0.3
+155 silly lockFile a9a83f04-dustjs-linkedin-2-0-3 dustjs-linkedin@2.0.3
+156 silly lockFile d0c8ad88-dustjs-linkedin-2-0-3 dustjs-linkedin@~2.0.3
+157 silly lockFile d0c8ad88-dustjs-linkedin-2-0-3 dustjs-linkedin@~2.0.3
+158 error Error: EACCES, mkdir '/Users/varun/.npm/request/2.27.0'
+158 error  { [Error: EACCES, mkdir '/Users/varun/.npm/request/2.27.0']
+158 error   errno: 3,
+158 error   code: 'EACCES',
+158 error   path: '/Users/varun/.npm/request/2.27.0',
+158 error   parent: 'alchemyapi_node' }
+159 error Please try running this command again as root/Administrator.
+160 error System Darwin 14.0.0
+161 error command "node" "/usr/local/bin/npm" "install"
+162 error cwd /Users/varun/Documents/Programming/webdevprojects/parser/alchemyapi_node
+163 error node -v v0.10.32
+164 error npm -v 1.4.28
+165 error path /Users/varun/.npm/request/2.27.0
+166 error code EACCES
+167 error errno 3
+168 error stack Error: EACCES, mkdir '/Users/varun/.npm/request/2.27.0'
+169 verbose exit [ 3, true ]
