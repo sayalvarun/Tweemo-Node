@@ -20,6 +20,7 @@ var connection = mysql.createConnection({
 var AlchemyAPI = require('../alchemyapi_node/alchemyapi');
 var alchemyapi = new AlchemyAPI();
 
+//Twitter module object
 var twit = new twitter({
     consumer_key:         'obpy1PjaH35sNnOztfBhmFyUX'
   , consumer_secret:      'MCM3hcxhiM09htNE9QzeUzSziaw2JsEcXqOas1pPwrGujKCodx'
@@ -30,44 +31,73 @@ var twit = new twitter({
 /* GET home page. */
 router.get('/', function(req, res) {
 	var content;
-	twit.get('statuses/user_timeline', {screen_name:'burnie', include_rts:'false', count: '2'}, function(err, data, response){
-		
+	twit.get('statuses/user_timeline', {screen_name:'burnie', include_rts:'false', count: '3'}, function(err, data, response){	
 		insertUser(data[0]); //Store info about user in DB if user not already stored
 
-		var jsonObject = [];
-		var count = 0;
-		async.eachSeries(data,
-			function(item, callback){
-				var str = item['text'];
-				str = str.replace(/@([^\s]+)/g,"").replace(/http([^\s]+)/g,"").replace(/^[\.]/g,"") //Replace @, . & links with whitespace
-				if(str.match(/\S*/g).length > 3 && str.split(' ').length>3){ //Ignore extra whitespace tweets created by the replace above
-					tweetObj = {};
-					tweetObj['id'] = count;
-					tweetObj['tweet'] = str;
-
-					var score; //Alchemy Score of the tweet
-					var type; //Alchemy Type of the tweet
-
-					alchemyapi.sentiment("text", str, {}, function(response) {
-						if(response["docSentiment"]!=undefined){
-							score = JSON.stringify(response["docSentiment"]["score"]);
-							type = JSON.stringify(response["docSentiment"]["type"]);
-							tweetObj['score'] = score;
-							tweetObj['type'] = type;
-							jsonObject.push(tweetObj);
-							count++;
-						}
-						callback();
-					});
-				}
-			},
-			function(err){
-				content = jsonObject;
-				res.render('index', { title: 'Tweets', data: content});
-			}
-		);
+		parseTweets(data, function(content){ //Parse tweets and render page once done
+			res.render('index', { title: 'Tweets', data: content});
+		});
 	});
 });
+
+/**
+* Take the data response from twitter and parse the tweets for sentiment
+* This includes adding it to the JSON to be passed to client and 
+* adding a new tweet to the database.
+*/
+function parseTweets(data, fn){
+	var jsonObject = [];
+	var count = 0;
+
+	async.eachSeries(data, //Asychronous while loop essentially
+		function(item, callback){
+			var str = cleanTweet(item['text']);
+			
+			if(isValidTweet(str)){ //Ignore extra whitespace tweets created by the replace above
+				tweetObj = {};
+				tweetObj['id'] = count;
+				tweetObj['tweet'] = str;
+
+				var score; //Alchemy Score of the tweet
+				var type; //Alchemy Type of the tweet
+
+				alchemyapi.sentiment("text", str, {}, function(response) {
+					if(response["docSentiment"]!=undefined){
+						score = JSON.stringify(response["docSentiment"]["score"]);
+						type = JSON.stringify(response["docSentiment"]["type"]);
+						tweetObj['score'] = score;
+						tweetObj['type'] = type;
+						jsonObject.push(tweetObj);
+						count++;
+					}
+					callback();
+				});
+
+				insertTweet(item);
+			}
+		},
+		function(err){ //Code that gets executed after every element in data is processed
+			fn(jsonObject);
+		}
+	);
+}
+
+/**
+* Clean up the tweet text and remove the extra junk
+*/
+function cleanTweet(tweet){
+	tweet = tweet.replace(/@([^\s]+)/g,""); //Remove @ stuff for parsing
+	tweet = tweet.replace(/http([^\s]+)/g,""); //Remove links for parsing
+	tweet = tweet.replace(/^[\.]/g,"") //Remove .@ messages for parsing
+	return tweet;
+}
+
+/**
+* Checks to see if a tweet is long enough to care
+*/
+function isValidTweet(tweet){
+	return tweet.match(/\S*/g).length > 3 && tweet.split(' ').length>3; //Check if tweet is >3 words ling
+}
 
 /**
 * Add user to the DB only if the user does not already exist
@@ -87,6 +117,9 @@ function insertUser(dataBlock){
 	});
 }
 
+/**
+* Function to check if the user already exists in the database
+*/
 function isNewUser(userID, callback){
 	var query = 'SELECT * from user '+
 				'Where userID = ?';
@@ -104,10 +137,16 @@ function isNewUser(userID, callback){
 	});
 }
 
+/**
+* Function to extract the userID of a user from the JSON returned
+*/
 function getUserID(data){
 	return data['user']['id_str'];
 }
 
+/**
+* Function that initalizes the data that needs to be sent to be added to the DB
+*/
 function instantiateUserData(data){
 	var userData = [];
 
@@ -116,8 +155,8 @@ function instantiateUserData(data){
 	userData.push(data['user']['screen_name']); //Twitter handle of the user
 	userData.push(data['user']['profile_image_url_https']); //Twitter pro pic URL
 	userData.push(data['user']['followers_count']); //Twitter followers of user
-	userData.push(data['geo']); //TODO: Not sure if this the correct way to get location
-	userData.push(formatDate(data['created_at'])); //Date time of tweet
+	userData.push(data['user']['location']); //TODO: Not sure if this the correct way to get location
+	userData.push(formatDate(data['user']['created_at'])); //Date time of tweet
 
 	return userData;
 }
@@ -175,6 +214,69 @@ function getNumForm(month){
 	else{
 		return '12'
 	}
+}
+
+/**
+* Add the tweet to our database if it isn't already there
+*/
+function insertTweet(tData){
+	var tweetJson = instantiateTweetData(tData);
+	isNewTweet(getTweetID(tData), function(isNew){
+		if(isNew){
+			var tweetData = instantiateTweetData(tData);
+			var query = 'INSERT into tweet (tweetID, userID, text, location, date, favorites, retweets) '+
+						'values(?,?,?,?,?,?,?)';
+			connection.query(query, tweetData, function(err, rows, fields){
+				if(err){
+					throw err;
+				}
+			});
+		}
+	});
+}
+
+/**
+* Get the string ID of a particular tweet in a JSON response
+*/
+function getTweetID(dataBlock){
+	return dataBlock['id_str'];
+}
+
+/*
+* Add the necessary database items to an array and return it for adding
+*/
+function instantiateTweetData(tData){
+	var arr = [];
+
+	arr.push(getTweetID(tData));
+	arr.push(tData['user']['id_str']);
+	arr.push(tData['text']);
+	arr.push(tData['geo']);
+	arr.push(formatDate(tData['created_at']));
+	arr.push(tData['retweet_count']);
+	arr.push(tData['favorite_count']);
+
+	return arr;
+}
+
+/**
+* Check if a tweet already exists in our database
+*/
+function isNewTweet(tID, callback){
+	var query = 'SELECT * from tweet '+
+				'Where tweetID = ?';
+	connection.query(query, [tID], function(err, rows, fields){
+		if (err){
+			throw err;
+		}
+		else{
+			if(rows!=undefined && rows.length>0){
+				callback(false); //Tweet exists already and was found => not a new tweet
+			}else{
+				callback(true); //Tweet does not yet exist
+			}
+		}
+	});
 }
 
 module.exports = router;
