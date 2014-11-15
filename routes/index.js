@@ -30,7 +30,7 @@ var twit = new twitter({
 /* GET home page. */
 router.get('/', function(req, res) {
 	var content;
-	twit.get('statuses/user_timeline', {screen_name:'burnie', include_rts:'false', count: '20'}, function(err, data, response){
+	twit.get('statuses/user_timeline', {screen_name:'burnie', include_rts:'false', count: '2'}, function(err, data, response){
 		
 		insertUser(data[0]); //Store info about user in DB if user not already stored
 
@@ -70,24 +70,48 @@ router.get('/', function(req, res) {
 });
 
 /**
-* Add user to the DB
+* Add user to the DB only if the user does not already exist
 */
 function insertUser(dataBlock){
-
-	var userData = instantiateUserData(dataBlock);
-	var query = "insert into user (userID,Name,Handle,profilePic,numFollowers,location,createDate) "+ 
-					"values(?,?,?,?,?,?,?);"; //Parameterized SQL query
-	connection.query(query, userData, function(err, rows, fields){
-		if(err){
-			throw err;
+	isNewUser(getUserID(dataBlock), function(newUser){
+		if(newUser){
+			var userData = instantiateUserData(dataBlock);
+			var query = "insert into user (userID,Name,Handle,profilePic,numFollowers,location,createDate) "+ 
+							"values(?,?,?,?,?,?,?);"; //Parameterized SQL query
+			connection.query(query, userData, function(err, rows, fields){
+				if(err){
+					throw err;
+				}
+			});
 		}
 	});
+}
+
+function isNewUser(userID, callback){
+	var query = 'SELECT * from user '+
+				'Where userID = ?';
+	connection.query(query, [userID], function(err, rows, fields){
+		if (err){
+			throw err;
+		}
+		else{
+			if(rows!=undefined && rows.length>0){
+				callback(false); //User exists already and was found => not a new user
+			}else{
+				callback(true); //User does not yet exist
+			}
+		}
+	});
+}
+
+function getUserID(data){
+	return data['user']['id_str'];
 }
 
 function instantiateUserData(data){
 	var userData = [];
 
-	userData.push(data['id_str']); //Twitter ID of the user
+	userData.push(getUserID(data)); //Twitter ID of the user
 	userData.push(data['user']['name']) //Actual name of the user
 	userData.push(data['user']['screen_name']); //Twitter handle of the user
 	userData.push(data['user']['profile_image_url_https']); //Twitter pro pic URL
