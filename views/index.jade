@@ -2,9 +2,5 @@ extends layout
 
 block content
 	h1= title
-	p Welcome to my hood brah
-	- for(var i=0; i<data.length; i++){
-		li= data[i]['tweet']
-			li= data[i]['score']
-			li= data[i]['type']
-	- }
+	input(placeholder="Enter handle here!", id="handle")
+	button(onclick="window.location = 'tweets'+'/'+document.getElementById('handle').value") Submit
