@@ -31,15 +31,142 @@ var twit = new twitter({
 /* GET tweets page. */
 router.get('/:handle', function(req, res) {
 	var handle = req.params.handle;
-	var content;
-	twit.get('statuses/user_timeline', {screen_name:handle, include_rts:'false', count: '3'}, function(err, data, response){	
-		insertUser(data[0]); //Store info about user in DB if user not already stored
+	var oldestTweetID; //Store the ID of the oldest Tweet of handle stored in DB
+	var newestTweetID; //Store the ID of the newest Tweet of handle stored in DB
 
-		parseTweets(data, function(content){ //Parse tweets and render page once done
-			res.render('tweets', { title: 'Tweets', data: content});
-		});
+	getTweetLimits(handle, function(limits){ //Get the oldest and newest know tweetID
+		oldestTweetID = limits[0];
+		newestTweetID = limits[1];
+		console.log("Old ID: "+oldestTweetID)
+		console.log("New ID: "+newestTweetID)
+
+		async.series([ //Execute following functions in order
+				function(callback){ //Get tweets before known tweets
+					console.log("Getting old tweets");
+					if(oldestTweetID!=undefined){
+						twit.get('statuses/user_timeline', {screen_name:handle, include_rts:'false', count: '5', max_id:oldestTweetID}, function(err, data, response){
+							if(data != ''){
+								insertUser(data[0],function(){ //Store info about user in DB if user not already stored
+									parseTweets(data, function(content){ //Parse tweets
+										console.log("Now parsing old tweets") 
+										//console.log("Old Tweet Contribution: "+JSON.stringify(content,undefined,2))
+										callback(null, content);
+									});
+								});
+							}	
+						});
+					}
+					callback(null, []);
+				},
+				function(callback){ //Get known tweets
+					console.log("Getting known tweets");
+					getKnownTweets(handle, function(content){
+						//console.log("Know tweet Contribution: "+ JSON.stringify(content,undefined,2))
+						callback(null, content);
+					});
+				},
+				function(callback){ //Get tweets after known tweets
+					console.log("Getting new tweets");
+					if(newestTweetID!=undefined){
+						twit.get('statuses/user_timeline', {screen_name:handle, include_rts:'false', count: '5', since_id:newestTweetID}, function(err, data, response){
+							console.log("New Data: "+data)
+							if(data != ''){
+								insertUser(data[0], function(){ //Store info about user in DB if user not already stored
+									parseTweets(data, function(content){ //Parse tweets 
+										//console.log("Unknown Tweets Contribution: "+JSON.stringify(content,undefined,2))
+										callback(null, content);
+									});
+								});
+							}	
+						});
+					}
+					else{
+						twit.get('statuses/user_timeline', {screen_name:handle, include_rts:'false', count: '5'}, function(err, data, response){
+							if(data != ''){
+								console.log("Parsing tweets")
+								insertUser(data[0], function(){
+									console.log("User Precessed")
+									parseTweets(data, function(content){ //Parse tweets
+										callback(null, content);
+									});
+								});
+							}	
+						});
+					}
+				}
+			],
+			function(err, results){ //Once all tweets parsed
+				mergeContents(results, function(content){
+					//console.log(JSON.stringify(content, undefined, 2));
+					res.render('tweets', { title: 'Tweets', data: content});
+				});
+			}
+		);
 	});
 });
+
+/**
+* Get all the known tweets from a user and their respective sentiment information
+*/
+function getKnownTweets(handle, callback){
+	var query = 'select T.text, S.score, S.type from tweet T, '+
+				'user U, Sentiment S where T.userID = U.userID and T.tweetID = S.tweetID '+
+				'and U.handle = ? order by T.tweetID;';
+	connection.query(query, [handle], function(err, rows, fields){
+		if(err){
+			throw err;
+		}
+		console.log(JSON.stringify(rows, undefined,2))
+		callback(rows);
+	});
+}
+
+/**
+* Method to merge mutliple JSON's into 1 json
+*/
+function mergeContents(combination, callback){
+	var total = [];
+	for(i=0; i<combination.length; i++){
+		if(combination[i]!=undefined){
+			//console.log("Current row: "+JSON.stringify(combination[i], undefined, 2))
+			total = total.concat(combination[i]);
+		}
+	}
+	callback(total);
+}
+
+/**
+* Query the DB for the tweets of a particular handle with minimum and maximum
+* twitterID so we know to only ask Twitter for new tweets
+*/
+function getTweetLimits(handle, fn){
+	var query = 'select tweetID from tweet T, '+
+				'user U where T.userID = U.userID '+
+				'and U.handle = ? order by tweetID;';
+
+	connection.query(query, [handle], function(err, rows, fields){
+		if(err){
+			throw err;
+		}
+		if(rows.length>0){
+			async.series([
+					function(callback){
+						callback(null, rows[0]['tweetID']);
+					},
+					function(callback){
+						callback(null, rows[rows.length-1]['tweetID']);
+					}
+				],
+				function(err, results){
+					fn(results);
+				}
+			);
+		}
+		else{ //No tweets for this user
+			fn([undefined,undefined]);
+		}	
+	});
+}
 
 /**
 * Take the data response from twitter and parse the tweets for sentiment
@@ -49,15 +176,16 @@ router.get('/:handle', function(req, res) {
 function parseTweets(data, fn){
 	var jsonObject = [];
 	var count = 0;
-
-	async.eachSeries(data, //Asychronous while loop essentially
+	console.log("Parsing Old Tweets")
+	async.eachSeries(data, //Asychronous for each loop essentially
 		function(item, callback){
 			var str = cleanTweet(item['text']);
+			//console.log(str)
 			
 			if(isValidTweet(str)){ //Ignore extra whitespace tweets created by the replace above
 				tweetObj = {};
-				tweetObj['id'] = count;
-				tweetObj['tweet'] = str;
+				tweetObj['id'] = item['id_str'];
+				tweetObj['text'] = str;
 
 				var score; //Alchemy Score of the tweet
 				var type; //Alchemy Type of the tweet
@@ -71,13 +199,17 @@ function parseTweets(data, fn){
 						jsonObject.push(tweetObj);
 						count++;
 					}
-					callback();
+					insertTweet(item, tweetObj, function(){
+						console.log("Tweet Inserted!")
+						callback()
+					});
 				});
-
-				insertTweet(item);
+			}else{
+				callback()
 			}
 		},
 		function(err){ //Code that gets executed after every element in data is processed
+			console.log("Tweets processed")
 			fn(jsonObject);
 		}
 	);
@@ -90,6 +222,8 @@ function cleanTweet(tweet){
 	tweet = tweet.replace(/@([^\s]+)/g,""); //Remove @ stuff for parsing
 	tweet = tweet.replace(/http([^\s]+)/g,""); //Remove links for parsing
 	tweet = tweet.replace(/^[\.]/g,"") //Remove .@ messages for parsing
+	tweet = tweet.replace(/\&([^\s]+)/g,"")//Remove ampersands
+	tweet = tweet.replace("\n","")//Remove line breaks
 	return tweet;
 }
 
@@ -97,15 +231,20 @@ function cleanTweet(tweet){
 * Checks to see if a tweet is long enough to care
 */
 function isValidTweet(tweet){
-	return tweet.match(/\S*/g).length > 3 && tweet.split(' ').length>3; //Check if tweet is >3 words ling
+	console.log("The tweet is: "+tweet)
+	console.log("The length of which is: "+tweet.split(" ").length)
+	console.log("The validity of which is: "+ parseInt(tweet.split(" ").length) >3)
+	return tweet.split(" ").length > 3; //Check if tweet is >3 words long
 }
 
 /**
 * Add user to the DB only if the user does not already exist
 */
-function insertUser(dataBlock){
+function insertUser(dataBlock, callback){
+	console.log("adding user!");
 	isNewUser(getUserID(dataBlock), function(newUser){
 		if(newUser){
+			console.log("New user added")
 			var userData = instantiateUserData(dataBlock);
 			var query = "insert into user (userID,Name,Handle,profilePic,numFollowers,location,createDate) "+ 
 							"values(?,?,?,?,?,?,?);"; //Parameterized SQL query
@@ -115,6 +254,10 @@ function insertUser(dataBlock){
 				}
 			});
 		}
+		else{
+			console.log("User Already Exists!")
+		}
+		callback()
 	});
 }
 
@@ -122,6 +265,7 @@ function insertUser(dataBlock){
 * Function to check if the user already exists in the database
 */
 function isNewUser(userID, callback){
+	console.log("Checking for a new user");
 	var query = 'SELECT * from user '+
 				'Where userID = ?';
 	connection.query(query, [userID], function(err, rows, fields){
@@ -218,10 +362,11 @@ function getNumForm(month){
 }
 
 /**
-* Add the tweet to our database if it isn't already there
+* Add the tweet to our database
+* @precondition the tweet has to be new if it reached here
 */
-function insertTweet(tData){
-	var tweetJson = instantiateTweetData(tData);
+function insertTweet(tData, tweetObj, callback){
+	console.log("Inserting a tweet")
 	isNewTweet(getTweetID(tData), function(isNew){
 		if(isNew){
 			var tweetData = instantiateTweetData(tData);
@@ -229,10 +374,38 @@ function insertTweet(tData){
 						'values(?,?,?,?,?,?,?)';
 			connection.query(query, tweetData, function(err, rows, fields){
 				if(err){
+					console.log(tweetData)
 					throw err;
 				}
+				insertSentiment(tweetObj, function(){
+					callback();
+				});
 			});
 		}
+		else{
+			callback()
+		}
+	});
+}
+
+/**
+* Sentiment should be a new one else duplicates will accumulate in DB table
+* insert these sentiment records into sentiment table
+*/
+function insertSentiment(tweetObj, callback){
+	
+	if (tweetObj['type']==undefined){
+		tweetObj['type']='neutral' 
+	}
+	var sentData = [tweetObj['id'],tweetObj['score'],tweetObj['type']]; //Easy 3 col. initialization
+	var query = 'INSERT into sentiment (tweetID, score, type) '+
+				'values(?,?,?)';
+	connection.query(query, sentData, function(err, rows, fields){
+		if(err){
+			console.log(sentData)
+			throw err;
+		}
+		callback()
 	});
 }
 
@@ -251,7 +424,7 @@ function instantiateTweetData(tData){
 
 	arr.push(getTweetID(tData));
 	arr.push(tData['user']['id_str']);
-	arr.push(tData['text']);
+	arr.push(cleanTweet(tData['text']));
 	arr.push(tData['geo']);
 	arr.push(formatDate(tData['created_at']));
 	arr.push(tData['retweet_count']);
